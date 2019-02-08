@@ -22,13 +22,11 @@ First build and install the image with a tag of your choice, e.g.:
     ./build.sh -t joergpfruender/openjdk8-with-wait-for
     
     
-Now you can extend your application docker file from your new image, e.g.
-
+Now you can extend your application's Dockerfile from your new image, e.g.:
 
     FROM joergpfruender/openjdk8-with-wait-for
     COPY myapplication.jar /app/application.jar
-    RUN echo "waiting for 20 seconds for mysql:3306 to be accessable before starting application"
-    CMD '/app/wait-for.sh', '-t', '20', 'mysql:3306', '--', 'java', '-jar', '/app/application.jar'
+    CMD ["sh", "-c", "echo 'waiting for 20 seconds for mysql:3306 to be accessable before starting application' && /app/wait-for.sh -t 20 mysql:3306 -- java -jar /app/application.jar"]
       
 [More documentation about wait-for](https://github.com/eficode/wait-for/)
     
